@@ -1,4 +1,7 @@
-var server_host = 'http://localhost:8001/'
+var server_host = 'http://localhost:8001/';
+var refresh_tempo = 10000;
+
+
 google.load("visualization", "1", {packages:["corechart"]});
 
 google.setOnLoadCallback(loadRankingData);
@@ -30,3 +33,5 @@ function drawChart(data){
 	var chart = new google.visualization.BarChart(document.getElementById('chart'));
 	chart.draw(data);
 }
+
+setInterval(loadRankingData,refresh_tempo);
