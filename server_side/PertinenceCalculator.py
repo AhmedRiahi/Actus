@@ -3,8 +3,8 @@ from collections import Counter
 
 class PertinenceCalculator:
 
-	separators = [',','.',';','!',"?",':',"'","...","|","(",")"]
-	stopWordLength = 4
+	separators = [',','.',';','!',"?",':',"'","...","|","(",")","-","_","$","#"]
+	stopWordLength = 5
 
 	def rank(self,text):
 		text = self.cleanText(text)
@@ -18,10 +18,16 @@ class PertinenceCalculator:
 
 
 	def cleanText(self,text):
-		text = re.sub('('+str(self.separators)+')',' ',text)
-		expression = r'\b\w{1,'+re.escape(str(self.stopWordLength))+r'}\b'
-		text = re.sub(expression,'',text)
-		text = re.sub('[ ]{2,}',' ',text)
-		return text
+		cleanedText = ''
+		for e in text:
+			if e.isalnum() or e == ' ':
+				cleanedText += e
+			else:
+				cleanedText += ' '
+
+		expression = r'\b\w{0,'+re.escape(str(self.stopWordLength))+r'}\b'
+		cleanedText = re.sub(expression,'',cleanedText)
+		cleanedText = re.sub('[ ]{2,}',' ',cleanedText)
+		return cleanedText
 
 

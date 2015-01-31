@@ -25,7 +25,11 @@ class ResourcesCollector:
 			for item in items:
 				summary = item['summary']
 				soup = BeautifulSoup(summary)
-				text += soup.find('p',{'class':'first-text'}).get_text()
+				try:
+					content = soup.find('p',{'class':'first-text'}).get_text()
+				except Exception:
+					content = soup.get_text()
+				text += content
 				
 			resources += [(url[0],text)]
 		return resources

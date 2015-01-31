@@ -15,10 +15,13 @@ class ServiceHandler(BaseHTTPRequestHandler):
 		pc = PertinenceCalculator()
 
 		resources = rc.snapshot()
+		response = list()
 		for resource in resources:
-
-			self.wfile.write(json.dumps([resource[0],pc.rank(resource[1]).most_common()]))
-			#self.wfile.write(pc.rank(resource[1]))
+			ranking = pc.rank(resource[1]).most_common()[0]
+			response.append([resource[0],ranking[0],ranking[1]])
+		
+		self.wfile.write(json.dumps(response))
+		self.wfile.close()
 
 
 if __name__ == '__main__':
